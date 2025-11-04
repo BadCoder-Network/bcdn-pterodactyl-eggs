@@ -1,0 +1,382 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2000-01-01T00:00:00-00:00",
+    "name": "Cobalt (media downloader)",
+    "author": "unknown@unknown.com",
+    "description": "https:\/\/github.com\/imputnet\/cobalt",
+    "features": null,
+    "docker_images": {
+        "ghcr.io\/imputnet\/cobalt:latest": "ghcr.io\/imputnet\/cobalt:latest"
+    },
+    "file_denylist": [],
+    "startup": "true",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"internal tunnel handler running\"\r\n}",
+            "logs": "{}",
+            "stop": "^term"
+        },
+        "scripts": {
+            "installation": {
+                "script": "#!\\\/bin\\\/bash\r\n\r\n# Create the default keys.json\r\necho \"{}\" > \/mnt\/server\/keys.json",
+                "container": "alpine:3.4",
+                "entrypoint": "ash"
+            }
+        },
+        "variables": [
+            {
+              "name": "API URL",
+              "description": "Corresponds to API_URL. The URL from which your instance will be accessible.",
+              "env_variable": "API_URL",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "required|url|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "API Port",
+              "description": "Port from which the API server will be accessible. The value is a number from 1024 to 65535.",
+              "env_variable": "API_PORT",
+              "default_value": "9000",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|between:1024,65535",
+              "field_type": "text"
+          },
+          {
+              "name": "Cookie Path",
+              "description": "Path to the cookies.json file relative to the current working directory.",
+              "env_variable": "COOKIE_PATH",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Processing Priority",
+              "description": "Nice value for ffmpeg subprocesses (Unix only). Higher values mean lower priority.",
+              "env_variable": "PROCESSING_PRIORITY",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer",
+              "field_type": "text"
+          },
+          {
+              "name": "API Instance Count",
+              "description": "Number of sub-instances to spawn for load balancing (Linux + Node.js >=23.1.0 only). Requires API_REDIS_URL.",
+              "env_variable": "API_INSTANCE_COUNT",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "API Redis URL",
+              "description": "Redis instance URL for tunnel cache. Required when API_INSTANCE_COUNT > 1.",
+              "env_variable": "API_REDIS_URL",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|url|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Disabled Services",
+              "description": "Comma-separated list of services to disable (e.g., bilibili,youtube).",
+              "env_variable": "DISABLED_SERVICES",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Force Local Processing",
+              "description": "When to force on-device processing: never, session, or always.",
+              "env_variable": "FORCE_LOCAL_PROCESSING",
+              "default_value": "never",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|in:never,session,always",
+              "field_type": "text"
+          },
+          {
+              "name": "API Environment File",
+              "description": "URL or local path to a key=value environment variable file for dynamic reloading.",
+              "env_variable": "API_ENV_FILE",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "API Listen Address",
+              "description": "Local address for the API instance. Usually 0.0.0.0 or 127.0.0.1.",
+              "env_variable": "API_LISTEN_ADDRESS",
+              "default_value": "0.0.0.0",
+              "user_viewable": false,
+              "user_editable": false,
+              "rules": "nullable|ip",
+              "field_type": "text"
+          },
+          {
+              "name": "HTTP Proxy",
+              "description": "HTTP proxy for external requests (e.g., http://user:pass@proxy:port).",
+              "env_variable": "HTTP_PROXY",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|url|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "HTTPS Proxy",
+              "description": "HTTPS proxy for external requests (e.g., https://proxy:port).",
+              "env_variable": "HTTPS_PROXY",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|url|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "No Proxy",
+              "description": "Comma/space-separated list of hosts that should not be proxied.",
+              "env_variable": "NO_PROXY",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Freebind CIDR",
+              "description": "IPv6 prefix for random IP assignment (Linux only). Requires specific setup.",
+              "env_variable": "FREEBIND_CIDR",
+              "default_value": "",
+              "user_viewable": false,
+              "user_editable": false,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Duration Limit",
+              "description": "Media duration limit in seconds.",
+              "env_variable": "DURATION_LIMIT",
+              "default_value": "10800",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "Tunnel Lifespan",
+              "description": "Duration tunnel info is stored in RAM, in seconds.",
+              "env_variable": "TUNNEL_LIFESPAN",
+              "default_value": "90",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "Rate Limit Window",
+              "description": "Rate limit time window for API requests, in seconds.",
+              "env_variable": "RATELIMIT_WINDOW",
+              "default_value": "60",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "Rate Limit Max",
+              "description": "Maximum API requests allowed within RATELIMIT_WINDOW.",
+              "env_variable": "RATELIMIT_MAX",
+              "default_value": "20",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "Session Rate Limit Window",
+              "description": "Rate limit time window for session creation requests, in seconds.",
+              "env_variable": "SESSION_RATELIMIT_WINDOW",
+              "default_value": "60",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "Session Rate Limit Max",
+              "description": "Maximum session requests allowed within SESSION_RATELIMIT_WINDOW.",
+              "env_variable": "SESSION_RATELIMIT_MAX",
+              "default_value": "10",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "Tunnel Rate Limit Window",
+              "description": "Rate limit time window for tunnel requests, in seconds.",
+              "env_variable": "TUNNEL_RATELIMIT_WINDOW",
+              "default_value": "60",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "Tunnel Rate Limit Max",
+              "description": "Maximum tunnel requests allowed within TUNNEL_RATELIMIT_WINDOW.",
+              "env_variable": "TUNNEL_RATELIMIT_MAX",
+              "default_value": "40",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "CORS Wildcard",
+              "description": "Enable CORS for all origins (1) or restrict to CORS_URL (0).",
+              "env_variable": "CORS_WILDCARD",
+              "default_value": "1",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|between:0,1",
+              "field_type": "text"
+          },
+          {
+              "name": "CORS URL",
+              "description": "Allowed origin for CORS when CORS_WILDCARD is 0.",
+              "env_variable": "CORS_URL",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|url|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Turnstile Site Key",
+              "description": "Cloudflare Turnstile site key for bot protection.",
+              "env_variable": "TURNSTILE_SITEKEY",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Turnstile Secret",
+              "description": "Cloudflare Turnstile secret for challenge verification.",
+              "env_variable": "TURNSTILE_SECRET",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "JWT Secret",
+              "description": "Secret for issuing JWT tokens. Must be a secure, long string.",
+              "env_variable": "JWT_SECRET",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|min:16|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "JWT Expiry",
+              "description": "Duration JWT tokens remain valid, in seconds.",
+              "env_variable": "JWT_EXPIRY",
+              "default_value": "120",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|min:1",
+              "field_type": "text"
+          },
+          {
+              "name": "API Key URL",
+              "description": "URL to external or local key database (use file:// for local files).",
+              "env_variable": "API_KEY_URL",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "Auth Required",
+              "description": "Require authentication for API access (1) or not (0).",
+              "env_variable": "API_AUTH_REQUIRED",
+              "default_value": "0",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|between:0,1",
+              "field_type": "text"
+          },
+          {
+              "name": "Custom Innertube Client",
+              "description": "Innertube client to use instead of default.",
+              "env_variable": "CUSTOM_INNERTUBE_CLIENT",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "YouTube Session Server",
+              "description": "URL to yt-session-generator instance for YouTube session data.",
+              "env_variable": "YOUTUBE_SESSION_SERVER",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|url|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "YouTube Session Innertube Client",
+              "description": "Innertube client compatible with botguard's poToken and visitor_data.",
+              "env_variable": "YOUTUBE_SESSION_INNERTUBE_CLIENT",
+              "default_value": "",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|max:255",
+              "field_type": "text"
+          },
+          {
+              "name": "YouTube Allow Better Audio",
+              "description": "Allow higher quality audio for YouTube (0 or 1).",
+              "env_variable": "YOUTUBE_ALLOW_BETTER_AUDIO",
+              "default_value": "0",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|integer|between:0,1",
+              "field_type": "text"
+          },
+          {
+              "name": "Enable Deprecated YouTube HLS",
+              "description": "Enable deprecated YouTube HLS: never, key, or always.",
+              "env_variable": "ENABLE_DEPRECATED_YOUTUBE_HLS",
+              "default_value": "never",
+              "user_viewable": true,
+              "user_editable": true,
+              "rules": "nullable|string|in:never,key,always",
+              "field_type": "text"
+          }
+      ]
+}
